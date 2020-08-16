@@ -1,0 +1,37 @@
+Chapter 1
+Q1. Verify on your system that the directories dot and dot-dot are not the same, except in the root directory
+A. $ cd 
+ $ cd /etc/
+/etc]$ ls -idl . ..
+29976822 drwxr-xr-x  88 root  wheel  2816 Aug 15 10:55 .
+29956214 drwxr-xr-x   6 root  wheel   192 Jul 28 13:54 ..
+/etc]$ cd 
+~]$ cd /
+/]$ ls -idl . ..
+2 drwxr-xr-x  22 root  admin  704 Jul 28 13:54 .
+2 drwxr-xr-x  22 root  admin  704 Jul 28 13:54 ..
+
+Q2. In the output from the program in Figure 1.6, what happened to the processes with process IDs 852 and 853?
+A . The UNIX System is a multiprogramming, or multitasking, system. Other processes were running at the time this program was run.
+
+Q3.If the calendar time is stored as a signed 32-bit integer, in which year will it overflow? How can we extend the overflow point? Are these strategies compatible with existing applications?
+A. During the year 2038. We can solve the problem by making the time_t data type a 64-bit integer. If it is currently a 32-bit integer, applications will have to be recompiled to work properly. But the problem is worse. Some file systems and backup media store times in 32-bit integers. These would need to be updated as well, but we still need to be able to read the old format.
+
+Q4.If the process time is stored as a signed 32-bit integer, and if the system counts 100 ticks per second, after how many days will the value overflow?
+A . 248 days 
+32 Bit maximum value = 2 to the power of 31 = 2147483648
+2147483648/100 = 21474836.48 (this many seconds to overflow)
+21474836.48 /60/60/24 = 248 days
+
+int ticks_per_second = 100;
+int seconds_per_minute = 60;
+int minutes_per_hour = 60;
+int hours_per_day = 24;
+
+int ticks = INT_MAX;
+int seconds = ticks / ticks_per_second;
+int minutes = seconds / seconds_per_minute;
+int hours = minutes / minutes_per_hour;
+int days = hours / hours_per_day;
+
+printf("overflow after %d days\n", days);
